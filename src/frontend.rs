@@ -18,7 +18,7 @@ pub(crate) async fn handle_memcache_client(
     client: CacheClient,
     cache_name: String,
     flags: bool,
-    proxy_metrics: impl ProxyMetrics,
+    proxy_metrics: impl MemcachedMetrics,
 ) {
     debug!("accepted memcache client, waiting for first byte to detect text or binary");
 
@@ -78,7 +78,7 @@ pub(crate) async fn handle_memcache_client_concrete(
         + Send
         + 'static,
     flags: bool,
-    proxy_metrics: impl ProxyMetrics,
+    proxy_metrics: impl MemcachedMetrics,
 ) {
     debug!("accepted memcache binary client");
 
@@ -261,7 +261,7 @@ async fn handle_memcache_request(
     sequence: u64,
     request: protocol_memcache::Request,
     flags: bool,
-    proxy_metrics: impl ProxyMetrics,
+    proxy_metrics: impl MemcachedMetrics,
 ) {
     let result = match request {
         memcache::Request::Delete(ref r) => {
@@ -308,7 +308,7 @@ pub(crate) async fn handle_resp_client(
     mut socket: tokio::net::TcpStream,
     mut client: CacheClient,
     cache_name: String,
-    proxy_metrics: impl ProxyMetrics,
+    proxy_metrics: impl RespMetrics,
 ) {
     debug!("accepted resp client");
 
